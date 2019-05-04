@@ -25,7 +25,7 @@ Target.create "BuildTests" (fun _ ->
     |> Trace.logItems "BuildTest-Output: "
 )
 Target.create "RunUnitTests" (fun _ ->
-    !! (testDir + "/*.Tests.dll")
+    !! (testDir + "*.Tests.dll")
     |> NUnit3.run (fun p -> { p with ShadowCopy = false })
 )
 
