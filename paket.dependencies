@@ -1,0 +1,5 @@
+source https://www.nuget.org/api/v2
+nuget FAKE
+nuget FSharp.Core
+nuget NUnit 3.11.0
+nuget NUnit.Runners 3.10.0
