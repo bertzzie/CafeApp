@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: pomma89/dotnet-mono:dotnet-2-mono-5-sdk
+      - image: fsharp:latest
     steps:
       - checkout
       - run:
