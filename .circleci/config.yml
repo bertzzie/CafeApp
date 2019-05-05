@@ -1,0 +1,19 @@
+version: 2.0
+jobs:
+  build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    steps:
+      - checkout
+      - run:
+          name: Restore Packages
+          command:
+            dotnet restore CafeApp.sln
+      - run:
+          name: Build
+          command:
+            ./build.sh BuildTests
+      - run:
+          name: Run Tests
+          command:
+            ./build.sh RunUnitTests

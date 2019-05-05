@@ -1,9 +1,0 @@
-language: csharp
-dist: xenial
-mono:
-  - latest
-dotnet: 2.2
-script:
-  - dotnet restore CafeApp.sln
-  - ./build.sh BuildTests
-  - ./build.sh RunUnitTests
