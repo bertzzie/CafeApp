@@ -2,9 +2,15 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: fsharp:10.2.3
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
     steps:
       - checkout
+      - run:
+          name: Check dir
+          command: pwd
+      - run:
+          name: Check dotnet installation
+          command: dotnet --version
       - run:
           name: Restore Packages
           command:
