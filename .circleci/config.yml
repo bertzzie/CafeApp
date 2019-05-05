@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: fsharp:10.2.3-netcore
+      - image: fsharp:10.2-netcore
     steps:
       - checkout
       - run:
@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Restore Packages
           command:
-            dotnet restore
+            dotnet restore CafeApp.sln
       - run:
           name: Build
           command:
