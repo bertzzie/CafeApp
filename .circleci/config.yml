@@ -18,6 +18,10 @@ jobs:
           name: Check mono installation
           command: mono --version
       - run:
+          name: Restore Packages
+          command:
+            dotnet restore
+      - run:
           name: Build
           command:
             ./build.sh BuildTests
