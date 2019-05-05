@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+      - image: dotnet-2-mono-5-sdk
     steps:
       - checkout
       - run:
