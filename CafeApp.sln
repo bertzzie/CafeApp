@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Core", "src\CafeApp.Core\CafeApp.Core.fsproj", "{AB0915CE-6317-4509-9AEB-3E0930175A4E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Core", "src/CafeApp.Core/CafeApp.Core.fsproj", "{AB0915CE-6317-4509-9AEB-3E0930175A4E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Core.Tests", "src\CafeApp.Core.Tests\CafeApp.Core.Tests.fsproj", "{2FB5F24A-0960-41B8-9A94-1BEFE9F5A309}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Core.Tests", "src/CafeApp.Core.Tests/CafeApp.Core.Tests.fsproj", "{2FB5F24A-0960-41B8-9A94-1BEFE9F5A309}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
