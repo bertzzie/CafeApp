@@ -9,8 +9,14 @@ jobs:
           name: Check dir
           command: pwd
       - run:
+          name: See dir content
+          command: ls -al
+      - run:
           name: Check dotnet installation
           command: dotnet --version
+      - run:
+          name: Check mono installation
+          command: mono --version
       - run:
           name: Restore Packages
           command:
