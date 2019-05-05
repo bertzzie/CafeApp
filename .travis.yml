@@ -1,10 +1,9 @@
 language: csharp
-matrix:
-  include:
-    - dotnet: 2.2.104
-      mono: none
-    - mono: latest
-script:
+mono:
+  - latest
+dotnet: 2.2
+install:
   - dotnet restore CafeApp.sln
+script:
   - ./build.sh BuildTests
   - ./build.sh RunUnitTests
