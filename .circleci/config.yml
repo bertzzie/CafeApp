@@ -19,9 +19,10 @@ jobs:
           command: mono --version
       - run:
           name: Install fake
-          command:
-          - dotnet tool install fake-cli -g
-          - export PATH="$PATH:/root/.dotnet/tools"
+          command: dotnet tool install fake-cli -g
+      - run:
+          name: Add fake to PATH
+          command: export PATH="$PATH:/root/.dotnet/tools"
       - run:
           name: Check Fake Version
           command: fake --version
