@@ -18,14 +18,13 @@ jobs:
           name: Check mono installation
           command: mono --version
       - run:
-          name: Restore Packages
+          name: Install fake
           command:
-            dotnet restore CafeApp.sln
+            dotnet tool install fake-cli -global
       - run:
-          name: Build
-          command:
-            ./build.sh BuildTests
+          name: Check Fake Version
+          command: fake --version
       - run:
           name: Run Tests
           command:
-            ./build.sh RunUnitTests
+            ./build.sh
