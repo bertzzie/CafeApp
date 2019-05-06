@@ -27,6 +27,12 @@ jobs:
           name: Check fake is in tools
           command: ls -al /root/.dotnet/tools
       - run:
+          name: Make fake executable (?)
+          command: chmod +x /root/.dotnet/tools/fake
+      - run:
+          name: Which fake
+          command: which fake
+      - run:
           name: Check Fake Version
           command: ./root/.dotnet/tools/fake --version
       - run:
