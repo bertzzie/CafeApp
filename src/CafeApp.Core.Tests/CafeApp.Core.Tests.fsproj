@@ -6,6 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Library1.fs" />
+    <Compile Include="TestData.fs" />
+    <Compile Include="CafeAppTestsDSL.fs" />
+    <Compile Include="OpenTabTests.fs" />
+    <Compile Include="PlaceOrderTests.fs" />
+    <Compile Include="ServedDrinkTests.fs" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
