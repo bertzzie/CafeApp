@@ -24,8 +24,11 @@ jobs:
           name: Add fake to PATH
           command: export PATH="$PATH:/root/.dotnet/tools"
       - run:
+          name: Check fake is in tools
+          command: ls -al /root/.dotnet/tools
+      - run:
           name: Check Fake Version
-          command: fake --version
+          command: ./root/.dotnet/tools/fake --version
       - run:
           name: Run Tests
           command:
