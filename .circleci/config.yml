@@ -27,7 +27,7 @@ jobs:
           command: echo $HOME
       - run:
           name: show home 2
-          command: echo ~
+          command: ls -al $HOME
       - run:
           name: Add fake to path
           command: echo 'export PATH=/root/.dotnet/tools:$PATH' >> $BASH_ENV
