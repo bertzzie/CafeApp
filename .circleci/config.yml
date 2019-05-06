@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: fsharp:10.2-netcore
+    environment:
+      BASH_ENV: ~/.bashrc
     steps:
       - checkout
       - run:
@@ -21,23 +23,11 @@ jobs:
           name: Install fake
           command: dotnet tool install fake-cli -g
       - run:
-          name: Add fake to PATH
-          command: export PATH="$PATH:/root/.dotnet/tools"
-      - run:
-          name: Check fake is in tools
-          command: ls -al /root/.dotnet/tools
-      - run:
-          name: Make fake executable (?)
-          command: chmod +x /root/.dotnet/tools/fake
-      - run:
-          name: Echo path
-          command: echo $PATH
-      - run:
-          name: Which fake
-          command: which fake
+          name: Add fake to path
+          command: echo 'export PATH=/root/.dotnet/tools:$PATH' >> $BASH_ENV
       - run:
           name: Check Fake Version
-          command: ./root/.dotnet/tools/fake --version
+          command: fake --version
       - run:
           name: Run Tests
           command:
