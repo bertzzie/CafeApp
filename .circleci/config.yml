@@ -23,6 +23,12 @@ jobs:
           name: Install fake
           command: dotnet tool install fake-cli -g
       - run:
+          name: Show home
+          command: echo $HOME
+      - run:
+          name: show home 2
+          command: echo ~
+      - run:
           name: Add fake to path
           command: echo 'export PATH=/root/.dotnet/tools:$PATH' >> $BASH_ENV
       - run:
