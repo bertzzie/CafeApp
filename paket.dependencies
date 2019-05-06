@@ -1,5 +1,18 @@
-source https://www.nuget.org/api/v2
-nuget FAKE
-nuget FSharp.Core
-nuget NUnit 3.11.0
-nuget NUnit.Runners 3.10.0
+version 5.203.2
+
+// [ FAKE GROUP ]
+group NetcoreBuild
+    source https://www.nuget.org/api/v2
+    source https://api.nuget.org/v3/index.json
+
+    nuget Fake.Core.Target prerelease
+    nuget Fake.DotNet.MSBuild prerelease
+    nuget Fake.DotNet.Testing.NUnit prerelease
+
+group Main
+    source https://www.nuget.org/api/v2
+    source https://api.nuget.org/v3/index.json
+
+    nuget FSharp.Core
+    nuget NUnit 3.11.0
+    nuget NUnit.Console 3.10.0
