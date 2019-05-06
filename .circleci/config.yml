@@ -30,6 +30,9 @@ jobs:
           name: Make fake executable (?)
           command: chmod +x /root/.dotnet/tools/fake
       - run:
+          name: Echo path
+          command: echo $PATH
+      - run:
           name: Which fake
           command: which fake
       - run:
