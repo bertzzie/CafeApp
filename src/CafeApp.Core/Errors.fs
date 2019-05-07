@@ -15,4 +15,5 @@ type Error =
     | CanNotPrepareWithClosedTab
     | CanNotPrepareForNonPlacedOrder
     | CanNotPrepareNonOrderedFood of Food
+    | CanNotPrepareAlreadyPreparedFood of Food
 
