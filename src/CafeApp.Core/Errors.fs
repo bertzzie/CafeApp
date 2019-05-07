@@ -16,4 +16,7 @@ type Error =
     | CanNotPrepareForNonPlacedOrder
     | CanNotPrepareNonOrderedFood of Food
     | CanNotPrepareAlreadyPreparedFood of Food
+    | CanNotServeNonOrderedFood of Food
+    | CanNotServeNonPreparedFood of Food
+    | CanNotServeAlreadyServedFood of Food
 

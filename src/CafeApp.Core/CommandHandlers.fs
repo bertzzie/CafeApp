@@ -43,8 +43,18 @@ let (|NonOrderedFood|_|) order food =
     | false -> Some food
     | true -> None
 
+let (|NonPreparedFood|_|) ipo food =
+    match List.contains food ipo.PreparedFoods with
+    | false -> Some food
+    | true  -> None
+
 let (|AlreadyPreparedFood|_|) ipo food =
     match List.contains food ipo.PreparedFoods with
+    | true  -> Some food
+    | false -> None
+    
+let (|AlreadyServedFood|_|) ipo food =
+    match List.contains food ipo.ServedFoods with
     | true  -> Some food
     | false -> None
 
@@ -75,14 +85,26 @@ let handlePrepareFood food tabId = function
     | _ -> [FoodPrepared (food, tabId)] |> ok
 | OrderInProgress ipo ->
     let order = ipo.PlacedOrder
-    let foodPrepared = FoodPrepared (food, order.Tab.Id)
     match food with
     | NonOrderedFood order _    -> CanNotPrepareNonOrderedFood food |> fail
     | AlreadyPreparedFood ipo _ -> CanNotPrepareAlreadyPreparedFood food |> fail
-    | _                         -> [foodPrepared] |> ok
+    | _                         -> [FoodPrepared (food, order.Tab.Id)] |> ok
 | ServedOrder _ -> OrderAlreadyServed |> fail
 | OpenedTab _   -> CanNotPrepareForNonPlacedOrder |> fail
 | ClosedTab _   -> CanNotPrepareWithClosedTab |> fail
+
+let handleServedFood food tabId = function
+| OrderInProgress ipo ->
+    let order = ipo.PlacedOrder
+    match food with
+    | NonOrderedFood order _  -> CanNotServeNonOrderedFood food |> fail
+    | AlreadyServedFood ipo _ -> CanNotServeAlreadyServedFood food |> fail
+    | NonPreparedFood ipo _   -> CanNotServeNonPreparedFood food |> fail
+    | _                       -> [FoodServed (food, tabId)] |> ok
+| PlacedOrder _ -> CanNotServeNonPreparedFood food |> fail
+| ServedOrder _ -> OrderAlreadyServed |> fail
+| OpenedTab _   -> CanNotServeForNonPlacedOrder |> fail
+| ClosedTab _   -> CanNotServeWithClosedTab |> fail
 
 let execute state command =
     match command with
@@ -90,7 +112,8 @@ let execute state command =
     | PlaceOrder order          -> handlePlaceOrder order state
     | ServeDrink (drink, tabId) -> handleServedDrink drink tabId state
     | PrepareFood (food, tabId) -> handlePrepareFood food tabId state
-    | _           -> failwith "Todo"
+    | ServeFood (food, tabId)   -> handleServedFood food tabId state
+    | _                         -> failwith "Todo"
     
 let evolve state command =
     match execute state command with
