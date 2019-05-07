@@ -7,11 +7,12 @@ type Error =
     | CanNotPlaceEmptyOrder
     | CanNotOrderWithClosedTab
     | OrderAlreadyPlaced
-    | CanNotServeNonOrderedDrink of Drink
     | OrderAlreadyServed
-    | CanNotServeForNonPlacedOrder
     | CanNotServeWithClosedTab
-    | CanNotPrepareNonOrderedFood of Food
-    | CanNotPrepareForNonPlacedOrder
+    | CanNotServeForNonPlacedOrder
+    | CanNotServeNonOrderedDrink of Drink
+    | CanNotServeAlreadyServedDrink of Drink
     | CanNotPrepareWithClosedTab
+    | CanNotPrepareForNonPlacedOrder
+    | CanNotPrepareNonOrderedFood of Food
 
