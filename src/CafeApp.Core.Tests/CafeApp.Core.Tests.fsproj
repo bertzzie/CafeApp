@@ -11,6 +11,7 @@
     <Compile Include="OpenTabTests.fs" />
     <Compile Include="PlaceOrderTests.fs" />
     <Compile Include="ServedDrinkTests.fs" />
+    <Compile Include="PrepareFoodTests.fs" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

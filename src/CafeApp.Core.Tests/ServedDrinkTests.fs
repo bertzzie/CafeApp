@@ -26,6 +26,19 @@ let ``Can serve Drink``() =
     |> WithEvents [DrinkServed (coke, order.Tab.Id)]
     
 [<Test>]
+ let ``Can serve drink for order containing only one drink``() =
+     let order = { order with Drinks = [coke] }
+     let payment = { Tab = order.Tab; Amount = drinkPrice coke }
+     
+     Given (PlacedOrder order)
+     |> When (ServeDrink (coke, order.Tab.Id))
+     |> ThenStateShouldBe (ServedOrder order)
+     |> WithEvents [
+         DrinkServed (coke, order.Tab.Id)
+         OrderServed (order, payment)
+     ]
+ 
+[<Test>]
 let ``Can not serve non ordered drink``() =
     let order = { order with Drinks = [coke] }
     
