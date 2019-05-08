@@ -42,6 +42,23 @@ let ``Remain in order in progress while serving drink``() =
     |> WithEvents [DrinkServed (lemonade, order.Tab.Id)]
     
 [<Test>]
+let ``Order served if is last drink has been served``() =
+    let order = { order with Drinks = [coke; lemonade; appleJuice] }
+    let orderInProgress = {
+        PlacedOrder = order
+        ServedDrinks = [coke; lemonade]
+        PreparedFoods = []
+        ServedFoods = []
+    }
+    let expectedState = ServedOrder order
+    let expectedEvents = [DrinkServed (appleJuice, order.Tab.Id); OrderServed(order, payment order)]
+    
+    Given (OrderInProgress orderInProgress)
+    |> When (ServeDrink (appleJuice, order.Tab.Id))
+    |> ThenStateShouldBe expectedState
+    |> WithEvents expectedEvents
+    
+[<Test>]
 let ``Can not serve non ordered drinks during order in progress``() =
     let order = { order with Drinks = [coke; lemonade] }
     let orderInProgress = {

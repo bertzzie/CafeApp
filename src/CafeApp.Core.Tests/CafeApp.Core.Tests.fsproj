@@ -12,7 +12,7 @@
     <Compile Include="PlaceOrderTests.fs" />
     <Compile Include="ServedDrinkTests.fs" />
     <Compile Include="PrepareFoodTests.fs" />
-    <Compile Include="ServeFoodTests.fs" />
+    <Compile Include="ServedFoodTests.fs" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

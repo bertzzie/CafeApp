@@ -1,4 +1,4 @@
-module ServeFoodTests
+module ServedFoodTests
 
 open Domain
 open Errors
@@ -25,6 +25,23 @@ let ``Can maintain the order in progress state by serving food``() =
     |> When (ServeFood (salad, order.Tab.Id))
     |> ThenStateShouldBe (OrderInProgress expected)
     |> WithEvents [FoodServed (salad, order.Tab.Id)]
+    
+[<Test>]
+let ``Order served if is last food has been served``() =
+    let order = { order with Foods = [salad; pizza] }
+    let orderInProgress = {
+        PlacedOrder = order
+        ServedFoods = [pizza]
+        ServedDrinks = []
+        PreparedFoods = [salad]
+    }
+    let expectedState = ServedOrder order
+    let expectedEvents = [FoodServed (salad, order.Tab.Id); OrderServed (order, payment order)]
+    
+    Given (OrderInProgress orderInProgress)
+    |> When (ServeFood (salad, order.Tab.Id))
+    |> ThenStateShouldBe expectedState
+    |> WithEvents expectedEvents
 
 [<Test>]
 let ``Can serve only prepared food``() =

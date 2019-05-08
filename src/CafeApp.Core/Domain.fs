@@ -48,3 +48,18 @@ let orderAmount order =
         |> List.sum
     
     foodAmount + drinksAmount
+
+let payment order =
+    { Tab = order.Tab; Amount = orderAmount order }
+
+let nonServedFoods ipo =
+    List.except ipo.ServedFoods ipo.PlacedOrder.Foods
+    
+let nonServedDrinks ipo =
+    List.except ipo.ServedDrinks ipo.PlacedOrder.Drinks
+    
+let willServingDrinkCompletesIPOrder ipo drink =
+    List.isEmpty (nonServedFoods ipo) && ((nonServedDrinks ipo) = [drink])
+
+let willServingFoodCompletesIPOrder ipo food =
+    List.isEmpty (nonServedDrinks ipo) && ((nonServedFoods ipo) = [food])
