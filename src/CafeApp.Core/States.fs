@@ -11,6 +11,15 @@ type State =
     | OrderInProgress of InProgressOrder
     | ServedOrder of Order
     
+let private removeListItem items itemToBeRemoved =
+    List.filter (fun i -> i <> itemToBeRemoved) items
+    
+let applyPlacedOrderModification order = function
+| AddFood food      -> { order with Foods = food :: order.Foods }
+| RemoveFood food   -> { order with Foods = removeListItem order.Foods food  }
+| AddDrink drink    -> { order with Drinks = drink :: order.Drinks }
+| RemoveDrink drink -> { order with Drinks = removeListItem order.Drinks drink }
+    
 let apply state event =
     match state, event with
     | ClosedTab _, TabOpened tab     -> OpenedTab tab
@@ -29,6 +38,8 @@ let apply state event =
             ServedDrinks = []
             ServedFoods = []
         } |> OrderInProgress
+    | PlacedOrder order, OrderModified modification ->
+        applyPlacedOrderModification order modification |> PlacedOrder
     | OrderInProgress ipo, DrinkServed (item, _) ->
         { ipo with ServedDrinks = item :: ipo.ServedDrinks } |> OrderInProgress
     | OrderInProgress ipo, FoodPrepared (item, _) ->
@@ -36,5 +47,8 @@ let apply state event =
     | OrderInProgress ipo, FoodServed (item, _) ->
         { ipo with ServedFoods = item :: ipo.ServedFoods } |> OrderInProgress
     | OrderInProgress _, OrderServed (order, _) -> ServedOrder order
+    | OrderInProgress ipo, OrderModified modification ->
+        { ipo with PlacedOrder = applyPlacedOrderModification ipo.PlacedOrder modification }
+        |> OrderInProgress
     | ServedOrder _, TabClosed payment -> ClosedTab(Some payment.Tab.Id)
     | _ -> state

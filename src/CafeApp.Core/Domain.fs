@@ -21,6 +21,12 @@ type Payment = {
     Amount: decimal
 }
 
+type OrderModificationInfo =
+    | AddFood of Food
+    | AddDrink of Drink
+    | RemoveFood of Food
+    | RemoveDrink of Drink
+
 type Order = {
     Foods: Food list
     Drinks: Drink list

@@ -21,6 +21,13 @@ type Error =
     | CanNotServeAlreadyServedFood of Food
     | InvalidPayment of decimal * decimal
     | CanNotPayForNonServedOrder
+    | CanNotModifyClosedTab
+    | CanNotModifyNonPlacedOrder
+    | CanNotModifyNonOrderedFood of Food
+    | CanNotModifyNonOrderedDrink of Drink
+    | CanNotModifyAlreadyServedFood of Food
+    | CanNotModifyAlreadyServedDrink of Drink
+    | CanNotModifyAlreadyPreparedFood of Food
 
 let toErrorString = function
 | TabAlreadyOpened -> "Tab Already Opened"
@@ -41,3 +48,10 @@ let toErrorString = function
 | CanNotPlaceEmptyOrder -> "Can not place empty order"
 | CanNotPrepareForNonPlacedOrder -> "Can not prepare for non placed order"
 | CanNotServeForNonPlacedOrder -> "Can not serve for non placed order"
+| CanNotModifyClosedTab -> "Can not modify an already closed tab"
+| CanNotModifyNonPlacedOrder -> "Can not modify order as there's no order yet"
+| CanNotModifyNonOrderedFood (Food item) -> sprintf "Food %s(%d) is not ordered" item.Name item.MenuNumber
+| CanNotModifyNonOrderedDrink (Drink item) -> sprintf "Drink %s(%d) is not ordered" item.Name item.MenuNumber
+| CanNotModifyAlreadyServedFood (Food item) -> sprintf "Food %s(%d) is already served" item.Name item.MenuNumber
+| CanNotModifyAlreadyServedDrink (Drink item) -> sprintf "Drink %s(%d) is already served" item.Name item.MenuNumber
+| CanNotModifyAlreadyPreparedFood (Food item) -> sprintf "Food %s(%d) is already prepared" item.Name item.MenuNumber

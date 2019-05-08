@@ -7,7 +7,6 @@ open Events
 open Commands
 
 open Chessie.ErrorHandling
-open System
 
 let handleOpenTab tab = function
 | ClosedTab _ -> [TabOpened tab]  |> ok
@@ -119,6 +118,51 @@ let handleServedFood food tabId = function
 | OpenedTab _   -> CanNotServeForNonPlacedOrder |> fail
 | ClosedTab _   -> CanNotServeWithClosedTab |> fail
 
+let modifyInProgressOrder ipo modification =
+    match modification with
+    | AddFood food ->
+        match food with
+        | AlreadyServedFood ipo _   -> CanNotModifyAlreadyServedFood food |> fail
+        | AlreadyPreparedFood ipo _ -> CanNotModifyAlreadyPreparedFood food |> fail
+        | _                         -> [OrderModified modification] |> ok
+    | RemoveFood food ->
+        let order = ipo.PlacedOrder
+        match food with
+        | AlreadyServedFood ipo _   -> CanNotModifyAlreadyServedFood food |> fail
+        | AlreadyPreparedFood ipo _ -> CanNotModifyAlreadyPreparedFood food |> fail
+        | NonOrderedFood order _    -> CanNotModifyNonOrderedFood food |> fail
+        | _                         -> [OrderModified modification] |> ok
+    | AddDrink drink ->
+        match drink with
+        | AlreadyServedDrink ipo _ -> CanNotModifyAlreadyServedDrink drink |> fail
+        | _                        -> [OrderModified modification] |> ok
+    | RemoveDrink drink ->
+        let order = ipo.PlacedOrder
+        match drink with
+        | AlreadyServedDrink ipo _ -> CanNotModifyAlreadyServedDrink drink |> fail
+        | NonOrderedDrink order _  -> CanNotModifyNonOrderedDrink drink |> fail
+        | _                        -> [OrderModified modification] |> ok
+
+let modifyPlacedOrder order modification =
+    match modification with
+    | AddFood _  -> [OrderModified modification] |> ok
+    | AddDrink _ -> [OrderModified modification] |> ok
+    | RemoveFood food ->
+        match food with
+        | NonOrderedFood order _ -> CanNotModifyNonOrderedFood food |> fail
+        | _                      -> [OrderModified modification] |> ok
+    | RemoveDrink drink ->
+        match drink with
+        | NonOrderedDrink order _ -> CanNotModifyNonOrderedDrink drink |> fail
+        | _                       -> [OrderModified modification] |> ok
+
+let handleModifyOrder order modification = function
+| OrderInProgress ipo -> modifyInProgressOrder ipo modification
+| PlacedOrder _       -> modifyPlacedOrder order modification
+| ServedOrder _       -> OrderAlreadyServed |> fail
+| OpenedTab _         -> CanNotModifyNonPlacedOrder |> fail
+| ClosedTab _         -> CanNotModifyClosedTab |> fail
+
 let handleCloseTab payment = function
 | ServedOrder order ->
     let orderAmount = orderAmount order
@@ -132,6 +176,7 @@ let execute state command =
     match command with
     | OpenTab tab               -> handleOpenTab tab state
     | PlaceOrder order          -> handlePlaceOrder order state
+    | ModifyOrder (order, modi) -> handleModifyOrder order modi state
     | ServeDrink (drink, tabId) -> handleServedDrink drink tabId state
     | PrepareFood (food, tabId) -> handlePrepareFood food tabId state
     | ServeFood (food, tabId)   -> handleServedFood food tabId state
